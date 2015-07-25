@@ -1,0 +1,65 @@
+grammar com.ponta027.swc.Tool with org.eclipse.xtext.common.Terminals
+
+generate tool "http://www.ponta027.com/swc/Tool"
+
+Model:
+	elements+=Element*;
+	
+Element:
+	Swc|Interface
+	;
+
+QualifiedName:
+  ID ('.' ID)*
+;
+
+Swc:
+	'swc' name=ID '{'
+		(ports += Port)+
+		
+	'}'
+;
+
+Port:
+	PPort|RPort
+;
+
+RPort:
+	'rport' name=ID '{'
+		('interface' interface=[Interface|QualifiedName])?
+		('from' fromPort = [PPort|QualifiedName])?
+		
+	'}'
+;
+
+PPort:
+	'pport' name=ID '{'
+		('interface' interface=[Interface|QualifiedName])?
+		('to' toPort = [RPort|QualifiedName])?
+	'}'
+;
+	
+Interface:
+	SenderReceiverInterface|ClientServerInterface
+;
+
+SenderReceiverInterface:
+	'SRInterface' name=ID '{'
+		dataElement += DataElement
+	'}'
+;
+
+DataElement:
+	'dataType' name=ID dataType = [DataType]
+;
+
+DataType:
+	'Type' name=ID '{'	
+		
+	'}'
+;
+
+ClientServerInterface:
+	'CSInterface' name=ID
+;
+
