@@ -3,11 +3,11 @@
   <ownedViewpoints name="persons" modelFileExtension="basicfamily">
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Persons diagram" domainClass="basicfamily.Family">
       <validationSet>
-        <ownedRules xsi:type="validation:SemanticValidationRule" level="ERROR" message="name is empty" targetClass="basicfamily.Man">
-          <audits auditExpression="[self.name.size()>2/]"/>
-          <fixes name="name">
+        <ownedRules xsi:type="validation:SemanticValidationRule" level="ERROR" message="Parent is not set" targetClass="basicfamily.Man">
+          <audits auditExpression="[self.parents->size() > 0/]"/>
+          <fixes name="Parent quick fix">
             <initialOperation>
-              <firstModelOperations xsi:type="tool:SetValue" featureName="name" valueExpression="sample"/>
+              <firstModelOperations xsi:type="tool:SetValue" featureName="mother" valueExpression="[self.eContainer().eAllContents()->filter(Woman)->first()/]"/>
             </initialOperation>
           </fixes>
         </ownedRules>
